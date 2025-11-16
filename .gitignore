@@ -6,3 +6,14 @@ venv/
 .DS_Store
 .idea/
 __pycache__/
+
+
+.venv/
+.env
+*.pyc
+.ipynb_checkpoints
+.vscode/
+outputs/
+tasks/task1/QUICK_START.md
+tasks/task1/STICK_PULLING_GUIDE.md
+IMPLEMENTATION_GUIDE.md

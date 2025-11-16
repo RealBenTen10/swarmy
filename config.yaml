@@ -5,7 +5,7 @@ max_timestep: 2000 # Maximum number of timesteps for the simulation
 ## World parameters
 world_width: 500
 world_height: 500
-background_color: !!python/tuple [255, 255, 255]
+background_color: [255, 255, 255] 
 
 
 ## Robot parameters
