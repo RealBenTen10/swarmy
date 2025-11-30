@@ -12,6 +12,7 @@ with open ('config.yaml', 'r') as file:
     config = yaml.load(file, Loader=yaml.FullLoader)
 ## Import uour implementation of the controller, sensor, environment and agent
 from controller.my_controller import MyController
+from controller.my_controller_2 import MyController2
 from sensors.bumper_sensor import BumperSensor
 from world.my_world import My_environment
 from agent.my_agent import MyAgent
@@ -19,7 +20,7 @@ from agent.my_agent import MyAgent
 
 
 # add your controller, if you have more than one controller, add them to the list and specify the percentage of robots that should use this controller in the config.yaml file
-agent_controller = [MyController]
+agent_controller = [MyController, MyController2]
 # add your sensors, if you have more than one sensor, add them to the list all sensors are added to each robot
 agent_sensing = []
 

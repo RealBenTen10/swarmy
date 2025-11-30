@@ -40,8 +40,8 @@ class MyAgent(Agent):
             )
 
         # Optionally save the image
-        # filename = f"agent_{self.unique_id}_trajectory.png"
-        # pygame.image.save(self.environment.displaySurface, filename)
-        # print(f"Saved environment image to {filename}")
+        filename = f"agent_{self.unique_id}_trajectory.png"
+        pygame.image.save(self.environment.displaySurface, filename)
+        print(f"Saved environment image to {filename}")
 
         pass
