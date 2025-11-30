@@ -9,7 +9,7 @@ background_color: !!python/tuple [255, 255, 255]
 
 
 ## Robot parameters
-number_of_agents: 4
+number_of_agents: 1
 default_velocity: 2           # choose even number
 default_angle_velocity: 2     # choose even number
 save_trajectory: 0

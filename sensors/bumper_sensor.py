@@ -65,8 +65,10 @@ class BumperSensor(Perception):
 
             intersection = np.asarray(line.clip(helper_object))
             if intersection [2]>0 :
+                hit_point = pygame.Vector2(intersection[0], intersection[1])
+                print("Hit: ", hit_point, " for robot at ", rob_pos)
                 return 1
 
-        return sensor_val
+        return 0
 
 
