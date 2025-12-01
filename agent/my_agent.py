@@ -16,7 +16,6 @@ class MyAgent(Agent):
         """
         The controller handles the initial position setting to ensure it starts on the high-potential side.
         """
-        # The controller will call set_position, so we just pass here.
         pass
 
     def save_information(self, last_robot):
@@ -29,17 +28,14 @@ class MyAgent(Agent):
         if len(self.trajectory) > 1:
             trajectory_color = (0, 0, 0)  # Black color for the trajectory
 
-            # The trajectory is a list of (x, y) tuples
-            # We use 1 as the line width
             pygame.draw.lines(
                 self.environment.displaySurface,
                 trajectory_color,
-                False,  # not closed
+                False,
                 self.trajectory,
                 1
             )
 
-        # Optionally save the image
         filename = f"agent_{self.unique_id}_trajectory.png"
         pygame.image.save(self.environment.displaySurface, filename)
         print(f"Saved environment image to {filename}")
