@@ -55,8 +55,8 @@ class FlockingController(Actuation):
         # log trajectory for visualization
         self.agent.trajectory.append((x, y))
         new_x, new_y = x + dx, y + dy
-        heading = math.degrees(math.atan2(dx, dy)) % 360
-        self.agent.set_position(new_x, new_y, heading)
+        heading = math.degrees(math.atan2(dy, dx)) % 360
+        self.agent.set_position(new_x, new_y, int(heading))
 
     def torus(self):
         x, y, heading = self.agent.get_position()

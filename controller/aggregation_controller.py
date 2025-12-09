@@ -23,25 +23,34 @@ class AggregationController(Actuation):
         self.wait_steps = int(agg_cfg.get("wait_steps", 8))
         self.move_speed = float(agg_cfg.get("move_speed", 1.5))
         self.dt = float(agg_cfg.get("dt", 1.0))
+        self.min_separation = float(agg_cfg.get("min_separation", 15.0))  # minimum distance before stopping
 
         self.wait_timer = 0
         self.velocity = np.zeros(2, dtype=float)
+        self.last_heading = None  # store last heading to prevent rapid changes
 
     def controller(self):
         if not self.initialized:
             self._initialize_pose()
+            x, y, h = self.agent.get_position()
+            self.last_heading = h
 
         if self.wait_timer > 0:
-            # stay stopped until timer expires
+            # stay stopped until timer expires, maintain current heading
             self.wait_timer -= 1
             self.velocity[:] = 0.0
+            x, y, h = self.agent.get_position()
+            self.agent.trajectory.append((x, y))
             return
 
-        neighbors = self._get_neighbors_within(self.sensing_radius)
+        # Check for neighbors within minimum separation distance
+        neighbors = self._get_neighbors_within(self.min_separation)
         if neighbors:
-            # stop and start waiting
+            # stop and start waiting, keep current heading
             self.wait_timer = self.wait_steps
             self.velocity[:] = 0.0
+            x, y, h = self.agent.get_position()
+            self.agent.trajectory.append((x, y))
             return
 
         # move away from local centroid if any neighbors in sensing range, else wander
@@ -59,8 +68,21 @@ class AggregationController(Actuation):
         # log trajectory for visualization
         self.agent.trajectory.append((x, y))
         new_x, new_y = x + dx, y + dy
-        heading = math.degrees(math.atan2(dx, dy)) % 360
-        self.agent.set_position(new_x, new_y, heading)
+        
+        # Fix: atan2 takes (y, x) not (x, y)
+        new_heading = math.degrees(math.atan2(dy, dx)) % 360
+        
+        # Smooth heading changes to prevent rapid spinning
+        if self.last_heading is not None:
+            # Calculate shortest angular distance
+            diff = (new_heading - self.last_heading + 180) % 360 - 180
+            # Limit maximum change per step to prevent spinning
+            max_change = 30.0  # degrees per step
+            if abs(diff) > max_change:
+                new_heading = (self.last_heading + max_change * np.sign(diff)) % 360
+        
+        self.last_heading = new_heading
+        self.agent.set_position(new_x, new_y, int(new_heading))
 
     def torus(self):
         x, y, heading = self.agent.get_position()
@@ -77,7 +99,8 @@ class AggregationController(Actuation):
         x = random.uniform(0, W)
         y = random.uniform(0, H)
         heading = random.uniform(0, 360)
-        self.agent.set_position(x, y, heading)
+        self.agent.set_position(x, y, int(heading))
+        self.last_heading = float(heading)
         self.initialized = True
 
     def _get_neighbors_within(self, radius: float) -> List:
