@@ -96,7 +96,8 @@ class Agent():
         """
         self.actuation.position[0] = x
         self.actuation.position[1] = y
-        self.actuation.angle = gamma
+        # body rendering expects an integer angle for LUT indexing
+        self.actuation.angle = int(round(gamma)) % 360
         #self.environment.add_dynamic_circle_object([(0, 0, 255), (x, y), 20, 1])
         #self.environment.add_dynamic_rectangle_object(['BLACK', pygame.Rect(x-15, y-15, 30, 30),5])
 

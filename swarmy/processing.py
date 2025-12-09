@@ -37,8 +37,9 @@ class Processing():
         #self.agent.actuation.fear()
         #self.agent.actuation.aggression()
         self.agent.actuation.processUserInput(pressedKeys)
-        self.agent.actuation.torus()
+        # run behavior then wrap position to toroidal space
         self.agent.actuation.controller()
+        self.agent.actuation.torus()
 
 
     

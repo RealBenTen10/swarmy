@@ -11,13 +11,13 @@ class MyController2(Actuation):
         self.config = config
         self.init_pos = True
 
-        # parameters for indirect control (momentum-based)
-        self.dt = 0.5  # integration step (seconds)
+        # parameters for indirect control 
+        self.dt = 0.5  # integration step 
         self.momentum_c = 0.8  # Momentum factor c
         self.gradient_scale = 0.005  # Scales the acceleration magnitude
         self.max_velocity = 1.0  # Clamp maximum velocity
 
-        # New state variables to store previous velocity (robot's memory)
+        # New state variables to store previous velocity 
         self.vx_prev = 0.0
         self.vy_prev = 0.0
 
@@ -72,7 +72,7 @@ class MyController2(Actuation):
         if vel_mag > 1e-6:
             new_heading = math.degrees(math.atan2(dx, dy)) % 360
         else:
-            new_heading = heading_deg  # Keep current heading if stationary
+            new_heading = heading_deg  
 
         self.agent.set_position(new_x, new_y, int(new_heading))
 

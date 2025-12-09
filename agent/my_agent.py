@@ -18,13 +18,12 @@ class MyAgent(Agent):
         """
         pass
 
-    def save_information(self, last_robot):
+    def save_information(self, last_robot):  # pyright: ignore[reportIncompatibleMethodOverride]
         """
         Draw the trajectory of the robot onto the environment surface.
         """
         print(f"Saving information for Agent {self.unique_id}. Trajectory length: {len(self.trajectory)}")
 
-        # Only draw if there are enough points
         if len(self.trajectory) > 1:
             trajectory_color = (0, 0, 0)  # Black color for the trajectory
 

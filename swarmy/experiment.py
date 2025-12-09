@@ -46,7 +46,7 @@ class Experiment():
 
 
         
-    def run(self, rendering):
+    def run(self, rendering, step_callback=None):
         """
         Start swarm simulation expermiment
         
@@ -120,6 +120,9 @@ class Experiment():
             for newAgent in agentList:
                 newAgent.processing.perform(pressedKeys)
                 #pygame.Rect(5, self.config['world_height'] - 10, self.config['world_width'] - 10, 5)
+
+            if step_callback is not None:
+                step_callback(agentList, timesteps_counter)
 
 
             # display results
